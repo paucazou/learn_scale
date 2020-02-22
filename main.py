@@ -50,8 +50,10 @@ def get_qna():
             f"To which scales {note} can belong to?":lambda : util.determine_note_scale(note),
             f"What is the {function} chord in {key}?":lambda : util.find_function_chord(key,function),
             f"What is the relative of {key}?":lambda : util.get_relative(key),
-            f"What is the closely related key with a {s_or_b} more of {key}?",lambda : util.find_function("dominant" if s_or_b == "#" else "subdominant"),
-            f"What is the closely related key with a {s_or_b} more of the relative of {key}?",lambda : util.find_function(util.get_relative(key),"dominant" if s_or_b == "#" else "subdominant"),
+            f"What is the closely related key with a {s_or_b} more of {key}?":lambda : util.find_function("dominant" if s_or_b == "#" else "subdominant"),
+            f"What is the closely related key with a {s_or_b} more of the relative of {key}?":lambda : util.find_function(util.get_relative(key),"dominant" if s_or_b == "#" else "subdominant"),
+            f"What is the diminished chord of {key}?":lambda : util.build_diminished_chord(key),
+            f"What is the augmented chord of {key}?":lambda : util.build_augmented_chord(key),
 
             }
 

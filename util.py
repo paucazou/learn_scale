@@ -2,7 +2,6 @@
 # -*-coding:Utf-8 -*
 #Deus, in adjutorium meum intende
 
-import itertools
 import mingus.core.chords as chords
 import mingus.core.keys as keys
 import mingus.core.scales as scales
@@ -19,10 +18,7 @@ leadingtone
 
 def get_random_key():
     """Get a random key, major or minor"""
-    tonics = string.ascii_lowercase[:7]
-    tonics = tonics + tonics.upper()
-    tonics = itertools.chain.from_iterable([(n,n+'b',n+'#') for n in tonics])
-    return random.choice(list(tonics))
+    return random.choice(keys.major_keys + keys.minor_keys)
 
 def get_scale(key):
     """Return a scale, major or minor,
@@ -94,6 +90,20 @@ def find_function_chord(key,f):
         f = "subtonic"
 
     return getattr(chords,f)(key)
+
+def build_diminished_chord(key):
+    """Return the diminished chord of the scale of key"""
+    if key[0].isupper():
+        return chords.VII(key)
+    return chords.II(key)
+
+def build_augmented_chord(key):
+    """Return the augmented chord of the scale of key"""
+    if key[0].isupper():
+        return ""
+    scale = scales.MelodicMinor(key)
+    return chords.augmented_triad(scale.degree(3))
+
 
 
 

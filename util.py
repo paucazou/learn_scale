@@ -3,6 +3,7 @@
 #Deus, in adjutorium meum intende
 
 import itertools
+import mingus.core.chords as chords
 import mingus.core.keys as keys
 import mingus.core.scales as scales
 import random
@@ -46,6 +47,23 @@ def get_degree_of(key,note):
     scale = get_scale(key)
     return scale.ascending().index(note)
 
+def get_relative(key):
+    """Get the relative key of key"""
+    return keys.relative_minor(key) if key.isupper() else keys.relative_major(key)
+
+def determine_note_scale(note):
+    """Determine to which scale this note
+    can belong. For minor scales, the seventh degree only
+    has two notes"""
+    result = []
+    for s in scales.determine(note):
+        if "harmonic minor" in s or "natural minor" in s:
+            result.append(s.split()[0].lower())
+        elif "major" in s and "harmonic" not in s:
+            result.append(s.split()[0])
+
+    return set(result)
+
 
 def find_degree(key,*d):
     """Find the degrees of the scale of the key
@@ -67,5 +85,15 @@ def find_function(scale,*f):
         - leadingtone
         """
     return find_degree(scale,*[functions.index(n)+1 for n in f])
+
+def find_function_chord(key,f):
+    """Find the chord of function f
+    in key"""
+    # for compatibility with mingus
+    if f == "leadingtone":
+        f = "subtonic"
+
+    return getattr(chords,f)(key)
+
 
 

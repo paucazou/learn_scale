@@ -15,6 +15,10 @@ dominant
 submediant
 leadingtone
 """.split()
+degrees = "I II III IV V VI VII".split()
+
+def randbool() -> bool:
+    return bool(random.randrange(2))
 
 def get_random_key():
     """Get a random key, major or minor"""
@@ -23,7 +27,7 @@ def get_random_key():
 def get_scale(key):
     """Return a scale, major or minor,
     matching with key"""
-    return scales.Major(key) if key.isupper() else scales.HarmonicMinor(key.upper())
+    return scales.Major(key) if key[0].isupper() else scales.HarmonicMinor(key.upper())
 
 def get_accidentals(key):
     """Return every note with accidental
@@ -46,6 +50,11 @@ def get_degree_of(key,note):
 def get_relative(key):
     """Get the relative key of key"""
     return keys.relative_minor(key) if key.isupper() else keys.relative_major(key)
+
+def get_parallel(key):
+    """Get the parallel of key"""
+    new_key = f"{key[0].upper() if key[0].islower() else key[0].lower()}"
+    return get_scale(new_key)
 
 def determine_note_scale(note):
     """Determine to which scale this note
@@ -90,6 +99,21 @@ def find_function_chord(key,f):
         f = "subtonic"
 
     return getattr(chords,f)(key)
+
+def find_scales_of_chord(chord):
+    """Return every scale in which chord appears"""
+    return [n for n in keys.major_keys + keys.minor_keys if set(chord).difference(set(get_scale(n).ascending()))]
+
+def build_chord(key,degree,seventh=False):
+    """Return the chord of the degree in the
+    scale of key.
+    If seventh is True, return the seventh
+    Degree can actually be a function or a roman numeral,
+    from I to VII in uppercase
+    """
+    degree = "subtonic" if degree == "leadingtone" else degree
+    method = degree + "7" if seventh else degree
+    return getattr(chords,method)(key)
 
 def build_diminished_chord(key):
     """Return the diminished chord of the scale of key"""

@@ -14,12 +14,12 @@ def ask():
     question = get_qna()
     start = time.time()
     answer = input(question[0]+' ')
-    answer = [ x[0].upper() + x[1:] for x in answer.split()]
-    if not check_answer(answer,question[1]):
+    answer = [ x[0].upper() + x[1:] for x in answer.split()] if ' 'in answer else answer
+    if not check_answer(answer,question[1]()):
         print("Error")
-        print(question[1]())
     else:
         print("Right")
+    print(question[1]())
     
     end = time.time()
     print(f"Time: {end-start} seconds.")
@@ -36,6 +36,8 @@ def check_answer(answer,answer_expected) -> bool:
     try:
         return set(answer) == set(answer_expected)
     except TypeError:
+        if answer.isnumeric():
+            answer = int(answer)
         return answer == answer_expected
 
 
@@ -72,7 +74,7 @@ def get_qna(i=False):
             f"What is the augmented chord of {key}?":lambda : util.build_augmented_chord(key),
             f"What are the notes of the parallel scale of {key}?":lambda : util.get_parallel(key).ascending(),
             # 16
-            f"What is the {'7th' if seventh else ''} chord of the scale of {key}?":lambda : chord,
+            f"What is the {'7th' if seventh else ''} chord of {func_deg} in the scale of {key}?":lambda : chord,
             f"In which scales does this chord appear: {', '.join(chord)}?" : lambda : util.find_scales_of_chord(chord),
 
             }

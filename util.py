@@ -24,15 +24,15 @@ def get_random_key():
     """Get a random key, major or minor"""
     return random.choice(keys.major_keys + keys.minor_keys)
 
-def get_scale(key):
+def get_scale(key,minor=scales.HarmonicMinor):
     """Return a scale, major or minor,
     matching with key"""
-    return scales.Major(key) if key[0].isupper() else scales.HarmonicMinor(key.upper())
+    return scales.Major(key) if key[0].isupper() else minor(key.upper())
 
 def get_accidentals(key):
     """Return every note with accidental
     in key"""
-    scale = get_scale(key)
+    scale = get_scale(key,scales.NaturalMinor)
     return [n for n in scale.ascending() if ('b' in n or '#' in n)]
 
 def get_minor_accidentals(key):
@@ -45,11 +45,11 @@ def get_degree_of(key,note):
     """Get the degree of note
     in key"""
     scale = get_scale(key)
-    return scale.ascending().index(note)
+    return scale.ascending().index(note) + 1
 
 def get_relative(key):
     """Get the relative key of key"""
-    return keys.relative_minor(key) if key.isupper() else keys.relative_major(key)
+    return keys.relative_minor(key) if key[0].isupper() else keys.relative_major(key)
 
 def get_parallel(key):
     """Get the parallel of key"""
@@ -61,7 +61,7 @@ def determine_note_scale(note):
     can belong. For minor scales, the seventh degree only
     has two notes"""
     result = []
-    for s in scales.determine(note):
+    for s in scales.determine([note]):
         if "harmonic minor" in s or "natural minor" in s:
             result.append(s.split()[0].lower())
         elif "major" in s and "harmonic" not in s:
@@ -102,7 +102,7 @@ def find_function_chord(key,f):
 
 def find_scales_of_chord(chord):
     """Return every scale in which chord appears"""
-    return [n for n in keys.major_keys + keys.minor_keys if set(chord).difference(set(get_scale(n).ascending()))]
+    return [n for n in keys.major_keys + keys.minor_keys if not set(chord).difference(set(get_scale(n).ascending()))]
 
 def build_chord(key,degree,seventh=False):
     """Return the chord of the degree in the

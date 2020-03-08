@@ -125,6 +125,7 @@ def build_augmented_chord(key):
     """Return the augmented chord of the scale of key"""
     if key[0].isupper():
         return ""
+    key = key[0].upper() + key[1:]
     scale = scales.MelodicMinor(key)
     return chords.augmented_triad(scale.degree(3))
 

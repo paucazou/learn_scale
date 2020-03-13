@@ -53,7 +53,7 @@ def get_relative(key):
 
 def get_parallel(key):
     """Get the parallel of key"""
-    new_key = f"{key[0].upper() if key[0].islower() else key[0].lower()}"
+    new_key = f"{key[0].upper() if key[0].islower() else key[0].lower()}{key[1:]}"
     return get_scale(new_key)
 
 def determine_note_scale(note):

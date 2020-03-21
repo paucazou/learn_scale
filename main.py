@@ -57,14 +57,15 @@ def get_qna(**kw):
         - question
     """
     # random data
-    key = util.get_random_key()
-    function = random.choice(util.functions)
-    note = random.choice(util.find_degree(key,*range(1,8)))
-    degree = random.choice(range(1,8))
-    s_or_b = "#" if util.randbool() else "b"
-    seventh = util.randbool()
-    func_deg = random.choice(util.functions + util.degrees)
-    chord = util.build_chord(key,func_deg,seventh)
+    key = kw.get('key') or util.get_random_key() 
+    function = kw.get('function') or random.choice(util.functions)
+    note = kw.get('note') or random.choice(util.find_degree(key,*range(1,8)))
+    degree = kw.get('degree') or random.choice(range(1,8))
+    s_or_b = kw.get('s_or_b') or ("#" if util.randbool() else "b")
+    seventh = kw.get('seventh') or util.randbool()
+    func_deg = kw.get('func_deg') or random.choice(util.functions + util.degrees)
+    chord = kw.get('chord') or util.build_chord(key,func_deg,seventh)
+
 
     questions = {
             f"What are the most important degrees in {key}?":lambda : util.find_degree(key,1,4,5),
@@ -91,7 +92,7 @@ def get_qna(**kw):
             }
 
     if kw.get("question"):
-        return list(questions.items())[kw["questions"]]
+        return list(questions.items())[kw["question"]]
 
     return random.choice(list(questions.items()))
 

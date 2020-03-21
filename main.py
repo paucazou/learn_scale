@@ -41,9 +41,20 @@ def check_answer(answer,answer_expected) -> bool:
         return answer == answer_expected
 
 
-def get_qna(i=False):
+def get_qna(**kw):
     """Get one random question and answer
     If i is set to an integer, return the matching question
+    kw is a list of data that can be used for test purpose.
+    Legal keys are:
+        - key
+        - function
+        - note
+        - degree
+        - s_or_b
+        - seventh
+        - func_deg
+        - chord
+        - question
     """
     # random data
     key = util.get_random_key()
@@ -60,10 +71,10 @@ def get_qna(i=False):
             f"What is the {function} in {key}?":lambda : util.find_function(key,function),
             f"What is the degree of {note} in {key}?":lambda : util.get_degree_of(key,note),
             f"What is {degree} in {key}?":lambda : util.find_degree(key,degree),
-            f"How many accidentals for {key}?":lambda : len(util.get_accidentals(key)),
+            f"How many accidentals for {key}?":lambda : len(util.get_accidentals_number(key)),
             #6
             f"What is the key signature of {key}?":lambda : util.get_accidentals(key),
-            f"What are the accidentals not in the key signature of {key}?":lambda : util.get_minor_accidentals(key) if key.islower() else "",
+            f"What are the accidentals not in the key signature of {key}?":lambda : util.get_minor_accidentals(key.upper()) if key.islower() else "",
             f"To which scales {note} can belong to?":lambda : util.determine_note_scale(note),
             f"What is the {function} chord in {key}?":lambda : util.find_function_chord(key,function),
             f"What is the relative of {key}?":lambda : util.get_relative(key),
@@ -79,8 +90,8 @@ def get_qna(i=False):
 
             }
 
-    if i is not False:
-        return list(questions.items())[i]
+    if kw.get("question"):
+        return list(questions.items())[kw["questions"]]
 
     return random.choice(list(questions.items()))
 

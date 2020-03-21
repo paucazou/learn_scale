@@ -35,6 +35,11 @@ def get_accidentals(key):
     scale = get_scale(key,scales.NaturalMinor)
     return [n for n in scale.ascending() if ('b' in n or '#' in n)]
 
+def get_accidentals_number(key):
+    """Return the number of accidentals that can be found at the key
+    """
+    return len(set(get_accidentals(key)))
+
 def get_minor_accidentals(key):
     """Return the sixth and seventh degrees
     augmented in minor scale key"""

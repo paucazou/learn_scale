@@ -9,9 +9,9 @@ import time
 import util
 
 
-def ask():
+def ask(question=None):
     """Ask one random question to user"""
-    question = get_qna()
+    question = question or get_qna()
     start = time.time()
     answer = input(question[0]+' ')
     answer = [ x[0].upper() + x[1:] for x in answer.split()] if ' 'in answer else answer
@@ -72,7 +72,7 @@ def get_qna(**kw):
             f"What is the {function} in {key}?":lambda : util.find_function(key,function),
             f"What is the degree of {note} in {key}?":lambda : util.get_degree_of(key,note),
             f"What is {degree} in {key}?":lambda : util.find_degree(key,degree),
-            f"How many accidentals for {key}?":lambda : len(util.get_accidentals_number(key)),
+            f"How many accidentals for {key}?":lambda : util.get_accidentals_number(key),
             #6
             f"What is the key signature of {key}?":lambda : util.get_accidentals(key),
             f"What are the accidentals not in the key signature of {key}?":lambda : util.get_minor_accidentals(key.upper()) if key.islower() else "",
@@ -86,7 +86,7 @@ def get_qna(**kw):
             f"What is the augmented chord of {key}?":lambda : util.build_augmented_chord(key),
             f"What are the notes of the parallel scale of {key}?":lambda : util.get_parallel(key).ascending(),
             # 16
-            f"What is the {'7th' if seventh else ''} chord of {func_deg} in the scale of {key}?":lambda : chord,
+            f"What is the {'7th ' if seventh else ''}chord of {func_deg} in the scale of {key}?":lambda : chord,
             f"In which scales does this chord appear: {', '.join(chord)}?" : lambda : util.find_scales_of_chord(chord),
 
             }

@@ -43,7 +43,6 @@ def check_answer(answer,answer_expected) -> bool:
 
 def get_qna(**kw):
     """Get one random question and answer
-    If i is set to an integer, return the matching question
     kw is a list of data that can be used for test purpose.
     Legal keys are:
         - key
@@ -55,6 +54,7 @@ def get_qna(**kw):
         - func_deg
         - chord
         - question
+    question can be used to get the matching question.
     """
     # random data
     key = kw.get('key') or util.get_random_key() 

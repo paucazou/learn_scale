@@ -56,10 +56,17 @@ def get_relative(key):
     """Get the relative key of key"""
     return keys.relative_minor(key) if key[0].isupper() else keys.relative_major(key)
 
-def get_parallel(key):
+def get_parallel(key,minor=scales.MelodicMinor):
     """Get the parallel of key"""
     new_key = f"{key[0].upper() if key[0].islower() else key[0].lower()}{key[1:]}"
-    return get_scale(new_key)
+    return get_scale(new_key,minor)
+
+def get_modal_notes(key,minor=scales.MelodicMinor):
+    """Get the modal notes of a key: notes that are in minor, not in major
+    and in major but not in minor"""
+    base = set(get_scale(key,minor).ascending)
+    parallel = set(get_parallel(key,minor))
+    return parallel.difference(base)
 
 def determine_note_scale(note):
     """Determine to which scale this note

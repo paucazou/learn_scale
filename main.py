@@ -84,7 +84,7 @@ def get_qna(**kw):
             f"What is the closely related key with a {s_or_b} more of the relative of {key}?":lambda : util.find_function(util.get_relative(key),"dominant" if s_or_b == "#" else "subdominant"), 
             f"What is the diminished chord of the scale of {key}?":lambda : util.build_diminished_chord(key),
             f"What is the augmented chord of {key}?":lambda : util.build_augmented_chord(key),
-            f"What are the notes of the parallel scale of {key}?":lambda : util.get_parallel(key).ascending(),
+            f"What are the modal notes of the parallel scale of {key}?":lambda : util.get_modal_notes(key),
             # 16
             f"What is the {'7th ' if seventh else ''}chord of {func_deg} in the scale of {key}?":lambda : chord,
             f"In which scales does this chord appear: {', '.join(chord)}?" : lambda : util.find_scales_of_chord(chord),

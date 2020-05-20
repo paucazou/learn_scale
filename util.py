@@ -64,7 +64,7 @@ def get_parallel(key,minor=scales.MelodicMinor):
 def get_modal_notes(key,minor=scales.MelodicMinor):
     """Get the modal notes of a key: notes that are in minor, not in major
     and in major but not in minor"""
-    base = set(get_scale(key,minor).ascending)
+    base = set(get_scale(key,minor).ascending())
     parallel = set(get_parallel(key,minor))
     return parallel.difference(base)
 
